@@ -5,6 +5,7 @@ import me.park.tildiaryspringboot.jwt.JwtAuthenticationEntryPoint;
 import me.park.tildiaryspringboot.jwt.JwtSecurityConfig;
 import me.park.tildiaryspringboot.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -52,8 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/hello").permitAll()
-                .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/signup").permitAll()
+                .antMatchers("/api/auth/authenticate").permitAll()
+                .antMatchers("/api/user/signup").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/board").permitAll()
+                .antMatchers("/api/board/*").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
