@@ -34,6 +34,7 @@ public class UserDto {
     @Email
     private String email;
 
+    @Getter
     private boolean email_receives;
 
     private Set<AuthorityDto> authorityDtoSet;
@@ -46,6 +47,8 @@ public class UserDto {
         return UserDto.builder()
                 .username(user.getUsername())
                 .nickname(user.getNickname())
+                .email(user.getEmail())
+                .email_receives(user.isEmail_receives())
                 .authorityDtoSet(user.getAuthorities().stream()
                         .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
                         .collect(Collectors.toSet()))
