@@ -4,6 +4,7 @@ import me.park.tildiaryspringboot.dto.BoardDto;
 import me.park.tildiaryspringboot.dto.BoardSaveDto;
 import me.park.tildiaryspringboot.entity.Board;
 import me.park.tildiaryspringboot.service.BoardService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,6 +39,12 @@ public class BoardController {
     public Board modify(@PathVariable Long boardId, @Valid @RequestBody BoardSaveDto boardSaveDto) {
         boardSaveDto.setBoardId(boardId);
         return boardService.modifyBoard(boardSaveDto);
+    }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> delete(@PathVariable Long boardId) {
+        boardService.deleteBoard(boardId);
+        return ResponseEntity.noContent().build();
     }
 
 }

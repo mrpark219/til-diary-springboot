@@ -62,4 +62,8 @@ public class BoardService {
         }
         return boardRepository.save(boardToUpdate);
     }
+
+    public void deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
+    }
 }
