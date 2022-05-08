@@ -7,6 +7,7 @@ import me.park.tildiaryspringboot.repository.BoardRepository;
 import me.park.tildiaryspringboot.repository.UserRepository;
 import me.park.tildiaryspringboot.util.SecurityUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,5 +43,23 @@ public class BoardService {
                 .user(userRepository.findByUsername(username.get()))
                 .build();
         return boardRepository.save(board);
+    }
+
+    public Board modifyBoard(BoardSaveDto boardSaveDto) {
+        if(ObjectUtils.isEmpty(boardSaveDto.getBoardId())) {
+            throw new RuntimeException("수정할 boardId가 없습니다.");
+        }
+        Board boardToUpdate = boardRepository.getById(boardSaveDto.getBoardId());
+
+        if(!ObjectUtils.isEmpty(boardSaveDto.getTitle())) {
+            boardToUpdate.setTitle(boardSaveDto.getTitle());
+        }
+        if(!ObjectUtils.isEmpty(boardSaveDto.getContent())) {
+            boardToUpdate.setContent(boardSaveDto.getContent());
+        }
+        if(!ObjectUtils.isEmpty(boardSaveDto.getEmotion())) {
+            boardToUpdate.setEmotion(boardSaveDto.getEmotion());
+        }
+        return boardRepository.save(boardToUpdate);
     }
 }

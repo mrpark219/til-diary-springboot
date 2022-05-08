@@ -34,4 +34,10 @@ public class BoardController {
         return boardService.writeBoard(boardSaveDto);
     }
 
+    @PutMapping("/{boardId}")
+    public Board modify(@PathVariable Long boardId, @Valid @RequestBody BoardSaveDto boardSaveDto) {
+        boardSaveDto.setBoardId(boardId);
+        return boardService.modifyBoard(boardSaveDto);
+    }
+
 }
