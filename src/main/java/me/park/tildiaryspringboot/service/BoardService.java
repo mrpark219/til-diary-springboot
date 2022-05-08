@@ -38,6 +38,7 @@ public class BoardService {
         Board board = Board.builder()
                 .title(boardSaveDto.getTitle())
                 .content(boardSaveDto.getContent())
+                .emotion(boardSaveDto.getEmotion())
                 .user(userRepository.findByUsername(username.get()))
                 .build();
         return boardRepository.save(board);

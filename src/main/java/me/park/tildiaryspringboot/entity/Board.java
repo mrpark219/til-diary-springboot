@@ -28,6 +28,9 @@ public class Board {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "emotion")
+    private Integer emotion;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
