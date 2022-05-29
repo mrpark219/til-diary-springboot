@@ -1,6 +1,7 @@
 package me.park.tildiaryspringboot.controller;
 
 import me.park.tildiaryspringboot.dto.BoardDto;
+import me.park.tildiaryspringboot.dto.BoardListDto;
 import me.park.tildiaryspringboot.dto.BoardSaveDto;
 import me.park.tildiaryspringboot.entity.Board;
 import me.park.tildiaryspringboot.service.BoardService;
@@ -21,8 +22,8 @@ public class BoardController {
     }
 
     @GetMapping("")
-    public List<BoardDto> boards() {
-        return boardService.getBoardList();
+    public List<BoardDto> boards(BoardListDto boardListDto) {
+        return boardService.getBoardList(boardListDto);
     }
 
     @GetMapping("/{boardId}")

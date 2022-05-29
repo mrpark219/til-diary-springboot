@@ -1,6 +1,7 @@
 package me.park.tildiaryspringboot.service;
 
 import me.park.tildiaryspringboot.dto.BoardDto;
+import me.park.tildiaryspringboot.dto.BoardListDto;
 import me.park.tildiaryspringboot.dto.BoardSaveDto;
 import me.park.tildiaryspringboot.entity.Board;
 import me.park.tildiaryspringboot.repository.BoardRepository;
@@ -9,6 +10,7 @@ import me.park.tildiaryspringboot.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +25,13 @@ public class BoardService {
         this.userRepository = userRepository;
     }
 
-    public List<BoardDto> getBoardList() {
-        return boardRepository.findJoinUserId();
+    public List<BoardDto> getBoardList(BoardListDto boardListDto) {
+        //시작 날짜 종료 날짜 없으면 현재 달로 조회
+        if(ObjectUtils.isEmpty(boardListDto.getStartDate()) || ObjectUtils.isEmpty(boardListDto.getEndDate())) {
+            boardListDto.setStartDate(LocalDateTime.now().withDayOfMonth(1));
+            boardListDto.setEndDate(LocalDateTime.now().plusMonths(1).minusDays(1));
+        }
+        return boardRepository.findJoinUserIdCreatedAtBetween(boardListDto.getStartDate(), boardListDto.getEndDate());
     }
 
     public BoardDto getBoard(Long boardId) {
