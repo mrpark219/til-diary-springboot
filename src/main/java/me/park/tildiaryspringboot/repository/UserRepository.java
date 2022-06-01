@@ -1,5 +1,6 @@
 package me.park.tildiaryspringboot.repository;
 
+import me.park.tildiaryspringboot.dto.StatusDto;
 import me.park.tildiaryspringboot.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,8 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "WITH RECURSIVE DATES AS (SELECT DATE_FORMAT(NOW(), '%Y-01-01') DT " +
             "UNION ALL SELECT DATE_ADD(DT, INTERVAL 1 DAY) FROM DATES WHERE DT < CURDATE()) " +
-            "SELECT COUNT(BOARD_ID) AS statusList FROM DATES LEFT JOIN BOARD ON " +
+            "SELECT COUNT(BOARD_ID) AS COUNT, DATE_FORMAT(DT, '%Y/%m/%d') AS DATE FROM DATES LEFT JOIN BOARD ON " +
             "DATE(BOARD.CREATED_AT) = DATE(DT) AND USER_ID = :userId " +
-            "GROUP BY DT;", nativeQuery = true)
-    List<Long> findAllStatusByUserId(Long userId);
+            "GROUP BY DT " +
+            "HAVING COUNT > 0", nativeQuery = true)
+    List<StatusDto> findAllStatusByUserId(Long userId);
 }

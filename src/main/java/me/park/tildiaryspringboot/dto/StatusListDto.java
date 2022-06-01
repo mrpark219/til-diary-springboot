@@ -17,6 +17,6 @@ public class StatusListDto {
 
     private String nickname;
 
-    private List<Long> statusList;
+    private List<StatusDto> statusList;
 }
 
