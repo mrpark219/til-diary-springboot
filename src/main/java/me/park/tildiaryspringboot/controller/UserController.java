@@ -1,12 +1,13 @@
 package me.park.tildiaryspringboot.controller;
 
 import me.park.tildiaryspringboot.dto.UserDto;
+import me.park.tildiaryspringboot.dto.UserInfoDto;
+import me.park.tildiaryspringboot.entity.User;
 import me.park.tildiaryspringboot.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -26,8 +27,14 @@ public class UserController {
 
     @GetMapping("")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {
+    public ResponseEntity<UserDto> getMyUserInfo() {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
+    }
+
+    @PutMapping("")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<User> updateUserInfo(@Valid @RequestBody UserInfoDto userInfoDto) {
+        return ResponseEntity.ok(userService.updateUserInfo(userInfoDto));
     }
 
     @GetMapping("/{username}")
