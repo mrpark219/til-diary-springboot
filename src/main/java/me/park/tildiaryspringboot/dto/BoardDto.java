@@ -18,6 +18,8 @@ public interface BoardDto {
 
     Long getUserId();
 
+    String getUsername();
+
     String getNickname();
 
 }
