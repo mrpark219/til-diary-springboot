@@ -7,6 +7,9 @@ import me.park.tildiaryspringboot.entity.Board;
 import me.park.tildiaryspringboot.repository.BoardRepository;
 import me.park.tildiaryspringboot.repository.UserRepository;
 import me.park.tildiaryspringboot.util.SecurityUtil;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -46,6 +49,7 @@ public class BoardService {
         Board board = Board.builder()
                 .title(boardSaveDto.getTitle())
                 .content(boardSaveDto.getContent())
+                .contentHtml(makeHTML(boardSaveDto.getContent()))
                 .emotion(boardSaveDto.getEmotion())
                 .user(userRepository.findByUsername(username.get()))
                 .build();
@@ -72,5 +76,12 @@ public class BoardService {
 
     public void deleteBoard(Long boardId) {
         boardRepository.deleteById(boardId);
+    }
+
+    public String makeHTML(String markdown) {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
     }
 }

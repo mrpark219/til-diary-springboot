@@ -10,6 +10,8 @@ public interface BoardDto {
 
     String getContent();
 
+    String getContentHtml();
+
     String getEmotion();
 
     LocalDateTime getCreatedAt();

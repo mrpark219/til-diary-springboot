@@ -28,6 +28,9 @@ public class Board {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "content_html", columnDefinition = "TEXT")
+    private String contentHtml;
+
     @Column(name = "emotion")
     private Integer emotion;
 
