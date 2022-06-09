@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "GROUP BY DT " +
             "HAVING COUNT > 0", nativeQuery = true)
     List<StatusDto> findAllStatusByUserId(Long userId);
+
+    boolean existsByUsername(String username);
 }

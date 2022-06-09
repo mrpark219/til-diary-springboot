@@ -25,6 +25,11 @@ public class UserController {
         return ResponseEntity.ok(userService.signup(userDto));
     }
 
+    @GetMapping("/signup/{username}")
+    public ResponseEntity<Boolean> usernameDuplicate(@PathVariable String username) {
+        return ResponseEntity.ok(userService.isUsernameDuplicate(username));
+    }
+
     @GetMapping("")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserDto> getMyUserInfo() {

@@ -47,6 +47,10 @@ public class UserService {
         return UserDto.from(userRepository.save(user));
     }
 
+    public Boolean isUsernameDuplicate(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     @Transactional(readOnly = true)
     //username으로 유저, 권한 정보 조회
     public UserDto getUserWithAuthorities(String username) {
