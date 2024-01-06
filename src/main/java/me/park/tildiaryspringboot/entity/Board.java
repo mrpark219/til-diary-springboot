@@ -1,11 +1,12 @@
 package me.park.tildiaryspringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,34 +18,34 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Board {
 
-    @Id
-    @Column(name = "board_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;
+	@Id
+	@Column(name = "board_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long boardId;
 
-    @Column(name = "title", length = 50)
-    private String title;
+	@Column(name = "title", length = 50)
+	private String title;
 
-    @Column(name = "content", columnDefinition = "TEXT")
-    private String content;
+	@Column(name = "content", columnDefinition = "TEXT")
+	private String content;
 
-    @Column(name = "content_html", columnDefinition = "TEXT")
-    private String contentHtml;
+	@Column(name = "content_html", columnDefinition = "TEXT")
+	private String contentHtml;
 
-    @Column(name = "emotion")
-    private Integer emotion;
+	@Column(name = "emotion")
+	private Integer emotion;
 
-    @Column(name = "created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+	@Column(name = "created_at")
+	@CreationTimestamp
+	private LocalDateTime createdAt;
 
-    @Column(name = "modified_at")
-    @UpdateTimestamp
-    private LocalDateTime modifiedAt;
+	@Column(name = "modified_at")
+	@UpdateTimestamp
+	private LocalDateTime modifiedAt;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 }

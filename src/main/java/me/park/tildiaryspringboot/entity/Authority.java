@@ -1,11 +1,11 @@
 package me.park.tildiaryspringboot.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "authority")
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Authority {
 
-    @Id
-    @Column(name = "authority_name", length = 50)
-    private String authorityName;
+	@Id
+	@Column(name = "authority_name", length = 50)
+	private String authorityName;
 }

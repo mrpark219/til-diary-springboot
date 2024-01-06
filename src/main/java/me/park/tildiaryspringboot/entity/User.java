@@ -1,8 +1,8 @@
 package me.park.tildiaryspringboot.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -14,30 +14,30 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
 
-    @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+	@Id
+	@Column(name = "user_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long userId;
 
-    @Column(name = "username", length = 50, unique = true)
-    private String username;
+	@Column(name = "username", length = 50, unique = true)
+	private String username;
 
-    @Column(name = "password", length = 100)
-    private String password;
+	@Column(name = "password", length = 100)
+	private String password;
 
-    @Column(name = "nickname", length = 50)
-    private String nickname;
+	@Column(name = "nickname", length = 50)
+	private String nickname;
 
-    @Column(name = "email", length = 50)
-    private String email;
+	@Column(name = "email", length = 50)
+	private String email;
 
-    @Column(name = "email_receives")
-    private boolean email_receives;
+	@Column(name = "email_receives")
+	private boolean email_receives;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
+	@ManyToMany
+	@JoinTable(
+			name = "user_authority",
+			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+	private Set<Authority> authorities;
 }
