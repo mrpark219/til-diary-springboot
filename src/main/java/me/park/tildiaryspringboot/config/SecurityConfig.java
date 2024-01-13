@@ -4,6 +4,7 @@ import me.park.tildiaryspringboot.jwt.JwtAccessDeniedHandler;
 import me.park.tildiaryspringboot.jwt.JwtAuthenticationEntryPoint;
 import me.park.tildiaryspringboot.jwt.JwtSecurityConfig;
 import me.park.tildiaryspringboot.jwt.TokenProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,15 +24,21 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class SecurityConfig {
 	private final TokenProvider tokenProvider;
+
 	private final CorsFilter corsFilter;
+
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-	public SecurityConfig(TokenProvider tokenProvider, CorsFilter corsFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+	public final String AUTHORIZATION_HEADER;
+
+	public SecurityConfig(TokenProvider tokenProvider, CorsFilter corsFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAccessDeniedHandler jwtAccessDeniedHandler, @Value("${jwt.header}") String authorizationHeader) {
 		this.tokenProvider = tokenProvider;
 		this.corsFilter = corsFilter;
 		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+		AUTHORIZATION_HEADER = authorizationHeader;
 	}
 
 	@Bean
@@ -62,7 +69,7 @@ public class SecurityConfig {
 						sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				)
 
-				.with(new JwtSecurityConfig(tokenProvider), customizer -> {
+				.with(new JwtSecurityConfig(tokenProvider, AUTHORIZATION_HEADER), customizer -> {
 				});
 
 		return http.build();

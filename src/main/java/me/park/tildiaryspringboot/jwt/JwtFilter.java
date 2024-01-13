@@ -17,10 +17,12 @@ import java.io.IOException;
 //Jwt 커스텀 필터
 public class JwtFilter extends OncePerRequestFilter {
 
-	public static final String AUTHORIZATION_HEADER = "Authorization";
 	private final TokenProvider tokenProvider;
 
-	public JwtFilter(TokenProvider tokenProvider) {
+	public final String AUTHORIZATION_HEADER;
+
+	public JwtFilter(TokenProvider tokenProvider, String authorizationHeader) {
+		this.AUTHORIZATION_HEADER = authorizationHeader;
 		this.tokenProvider = tokenProvider;
 	}
 
