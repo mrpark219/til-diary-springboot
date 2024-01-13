@@ -2,21 +2,20 @@ package me.park.tildiaryspringboot.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
-
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Slf4j
 //Jwt 커스텀 필터
-public class JwtFilter extends GenericFilterBean {
+public class JwtFilter extends OncePerRequestFilter {
 
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	private final TokenProvider tokenProvider;
@@ -27,10 +26,10 @@ public class JwtFilter extends GenericFilterBean {
 
 	//토큰의 인증정보를 Security Context에 저장하는 역할 수행
 	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-		String jwt = resolveToken(httpServletRequest);
-		String requestURI = httpServletRequest.getRequestURI();
+	public void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws IOException, ServletException {
+
+		String jwt = resolveToken(request);
+		String requestURI = request.getRequestURI();
 
 		if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 			Authentication authentication = tokenProvider.getAuthentication(jwt);
@@ -42,7 +41,7 @@ public class JwtFilter extends GenericFilterBean {
 			log.debug("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
 		}
 
-		filterChain.doFilter(servletRequest, servletResponse);
+		filterChain.doFilter(request, response);
 	}
 
 	//Request Header에서 토큰 정보를 꺼내옴
