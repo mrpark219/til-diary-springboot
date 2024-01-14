@@ -60,7 +60,7 @@ public class BoardService {
         if(ObjectUtils.isEmpty(boardSaveDto.getBoardId())) {
             throw new RuntimeException("수정할 boardId가 없습니다.");
         }
-        Board boardToUpdate = boardRepository.getById(boardSaveDto.getBoardId());
+        Board boardToUpdate = boardRepository.getReferenceById(boardSaveDto.getBoardId());
 
         if(!ObjectUtils.isEmpty(boardSaveDto.getTitle())) {
             boardToUpdate.setTitle(boardSaveDto.getTitle());
